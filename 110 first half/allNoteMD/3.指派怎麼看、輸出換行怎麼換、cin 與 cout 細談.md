@@ -1,0 +1,184 @@
+###### tags: `大一程設` `東華大學` `東華大學資管系` `基本程式概念` `資管經驗分享`
+
+指派怎麼看、輸出換行怎麼換、cin 與 cout 細談
+===
+
+[TOC]
+
+## 前言
+
+程式語言之所以被稱為語言，就是因為語言他有固定的語法，被當初創立的人設立好規則，而後人只需遵從規則，大家就能利用他來溝通。
+
+就像你不會說為什麼要說 「我喜歡你」而不是「我你喜歡」或「喜歡你我」或「喜你我歡」，因為中文的句型就是規定好主詞動詞受詞，而這個規定我們從小用到大已經被內化到身體裡去了，我們自然就不覺得奇怪。
+
+相同的程式語言也是一樣，**不一樣的程式語言有不同的語法，所以有時候並不是程式難，而是你沒有把規定記起來，內化起來**。這樣聽起來程式語言好像也沒有那麼麻煩對吧!
+
+> 不一樣的程式語言有不同的語法，所以有時候並不是程式難，而是你沒有把規定記起來，內化起來。
+> [name=orange]
+
+## 指派怎麼看
+
+透過上一篇你們應該已經了解變數如何宣告跟初始化了，接著我們來談談新手會混淆的事情，就是指派，英文常說 assign。
+
+> We assign value 5 to the integer variable age.
+> 我們指派五這個值給年紀這個整數變數
+
+指派在程式語言裡我們會用「=」這個符號表示，然而這個「=」並不是等於的意思。
+
+在程式語言裡，<span style="color:red;">**除了變數宣告與條件判斷的等號之外**，任何的等號都應該由後往前看</span>，下面舉例，雖然他不直覺，但就是這樣。
+
+```cpp=
+    int main(){
+        int my_father_age = 40, my_mother_age = 35;
+        int your_father_age = 45, your_mother_age = 0; 
+        //這個 0 代表初始化，通常代表我還不知道，所以先設為 0。
+        
+        your_mother_age = my_father_age;
+    }
+```
+
+接著我們來談談由後往前看，上面四個變數我宣告即給值，我爸爸的年紀為 40 歲，但我們要看成我把 40 這個值給 my_father_age 這個變數，而這邊的「給」就是指派的意思，所以是我把 40 這個值 assign 給 my_father_age 這個變數，而其他三個變數同理。
+
+接著我們來看第 6 行 `your_mother_age = my_father_age;`，而新手們最常搞混的地方在於如果你用等於來看這句話那就慘了，用等於來看的話會變成「0 = 40」，然後你就會在原地 confuse，因為怎麼樣都不相等，所以很明顯的，在程式語言裡面「=」就不是等於，他有新的意義叫做指派。
+
+> 你問為什麼?
+> 沒有為什麼。
+> 這就是別人寫好的規定。
+> 你必須要記起來。
+> [name=orange]
+
+你會說阿這樣跟從前面看過去有甚麼差，其實真的不會有人從前面看過去，因為指派其實遵循一個通則。
+
+`要被指派值的變數 = 即將指派的值;`
+
+我們把這個值指派給你這個變數，所以是我把 40 這個值指派給 your_mother_age 這個變數，請記得要由後往前看。而你應該會發現我把 40 這個值指派給這個變數，我也是由後往前說，因為這已經內化成我的經驗了，而世界上的大家也都是這樣說的。
+
+剛開始絕對不習慣，養成習慣之後你就會覺得這是家常便飯。
+
+**至於條件判斷的等號我們等 if-else 的時候來教。**
+
+## 輸出換行怎麼換 / cin 與 cout 細談
+
+前面有說過 cin 用來輸入，cout 用來輸出，而詳細怎麼運作我們現在來談。我們先看看例子。
+
+```cpp=
+    #include <iostream>
+    using namespace std;
+    
+    int main(){
+        int my_age = 0, my_grade = 0;
+        string my_name = "Orange";
+        string my_job = "助教";
+        
+        cout << "please input your age" << endl;
+        cin >> my_age;
+        cout << "and input your grade" << endl;
+        cin >> my_grade;
+        
+        cout << "my age is " << my_age << endl;
+        cout << "my grade is " << my_grade << endl;
+        cout << "my name is " << my_name << endl;
+        cout << "my job is " << my_job << endl;
+        return 0;    
+    }
+```
+
+今天我初始化兩個變數分別是年紀跟年級，因為我還不知道是多少，但我養成好習慣先初始化為 0。
+
+接著用 cout 印出問題，在用 cin 把值輸入給我們想輸入的變數。
+
+最後把這些值給 output 出來。
+而你會問 endl 是什麼東西，這個是換行的意思，在英文裡稱為 end line，每當你 cout 一句話，如果不 endl 的話，程式就不會換行，這樣我後面的每一行都會擠在同一行裡，非常醜陋，所以請一定要養成換行的好習慣。
+
+### 另一種換行方式
+
+還有另一種換行方式，他長這樣。
+
+「"\n"」
+
+我們把上面的例子套過來，
+
+```cpp=
+    #include <iostream>
+    #include <string>
+    using namespace std;
+    
+    int main(){
+        int my_age = 0, my_grade = 0;
+        string my_name = "Orange";
+        string my_job = "助教";
+        
+        cout << "please input your age \n";
+        cin >> my_age;
+        cout << "and input your grade \n" ;
+        cin >> my_grade;
+        
+        cout << "my age is " << my_age << "\n";
+        cout << "my grade is " << my_grade << "\n";
+        cout << "my name is " << my_name << "\n";
+        cout << "my job is " << my_job << "\n";
+        return 0;        
+    }
+```
+
+\n 在程式語言裡是一種特殊字，反斜線「\」在程式語言裡是一種特殊符號，用來表達一些特殊字眼，而這個我們統稱為**跳脫字元**。
+
+
+
+| 字元 | 意義 | 
+| -------- | -------- |
+| \\'  | 單引號 | 
+| \\"  | 雙引號 | 
+| \\  | 反斜線 | 
+| \0  | 空字元(NULL)  | 
+| \t  | 定位字元(TAB) | 
+| \n  | 換行字元(ENTER) | 
+
+### string
+
+string 是一個用來儲存字串的類別，我們先不說類別是什麼，但 string 很方便，能夠儲存一整句話，不像 char 只能存一個字。
+
+而任何的字串都需要被用雙引號給包住，這是規定。而字元一定是單引號。
+所以上面的例子應該非常明顯了，只要是字串都必須被雙引號給包住，而在第二個例子裡面的\\n，因為他也算是字元/字串，所以也可以被包在大括弧裡面。只要程式看到跳脫字元，就會執行相對應動作。
+
+**眼尖的同學應該有發現，第二行我們加上了新的 #include，代表在 C++ 裡 string 是一個工具，他有被放在 Library 裡面哦，所以如果要用 string，要記得 include 進來。**
+
+> 當然這沒有為什麼 Orz
+> [name=orange]
+
+**而 string 的更複雜運用我們後面會教。**
+
+### 連續輸入、輸出
+
+上面相同的例子，我們做個改寫
+
+```cpp=
+    #include <iostream>
+    #include <string>
+    using namespace std;
+    
+    int main(){
+        int my_age = 0, my_grade = 0;
+        string my_name = "Orange";
+        string my_job = "助教";
+        
+        cout << "please input your age and input your grade. \n";
+        cin >> my_age >> my_grade;
+        
+        cout << "my age is " << my_age << "\n"
+             << "my grade is " << my_grade << "\n"
+             << "my name is " << my_name << "\n"
+             << "my job is " << my_job << "\n";
+        return 0;
+    }
+```
+
+應該馬上能看出差別，好好的運用跳脫字元跟排版，我們能少打很多字。而 13 到 16 行，因為都是同一個 cout 底下，我只是利用 enter 排了版，但他還是算一句話，所以只有最後要加上分號哦。
+
+## 練習
+
+這份筆記看完有題目給大家練習。
+[練習題 - 請好好利用跳脫字元](https://hackmd.io/5mTQRV3GSlqzWSml6YfK4Q)
+
+
+
