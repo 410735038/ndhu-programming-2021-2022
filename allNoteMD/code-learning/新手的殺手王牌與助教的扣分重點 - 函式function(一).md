@@ -1,0 +1,177 @@
+###### tags: `大一程設` `東華大學` `東華大學資管系` `基本程式概念` `資管經驗分享`
+
+新手的殺手王牌與助教的扣分重點 - 函式function (一) 基礎講解
+===
+
+[TOC]
+
+## 前言
+
+目前大家學下來，我們總是在 main function 裡面完成我們想做的事，隨著遇到的題目變難，或是需求上升，程式碼會越來越冗長，然而這是一件不太有效率，而且妨礙閱讀的行為，如果今天事情很繁雜，我們還只能透過 main function 來處理一切事物，那真的太糟糕了，所以**為了增加程式易讀性並且有效拆分細部功能以重複利用**，今天我們要來講程式開發最重要的工具之一 - 函式 function。
+
+## 函式定義
+
+在了解函式的用法之前，我們先了解他的長相，以及它的使用規則吧!
+
+```
+    return_type function_name(arguments){
+        /*
+            function statements
+        */        
+        return value //void function no return value
+    }
+```
+
+* return_type
+    *  回傳型別，表示你 return 的值要是什麼型態
+* function_name
+    *  函式名稱，完全自己定義
+    *  養成取有意義名稱的習慣
+* arguments / parameters
+    * 參數，上面兩種都是常見的英文稱呼
+    * 參數為你在呼叫 function 時必須傳入的資料，我們通常會根據所設計的函式需求，要求傳入一些資料供我們進行操作與運算
+
+我們馬上來看看案例吧!
+
+```cpp=
+    #include <iostream>
+    using namespace std;
+    double computeBMI(double height, double weight){
+        double myBMI = weight / (height * height);
+        return myBMI;
+    }
+    
+    int main(){
+        double height, weight, myBMI;
+        cout << "please input your height.\n";
+        cin >> height;
+        cout << "and input your weight.\n";
+        cin >> weight;
+        
+        myBMI = computeBMI(height, weight);
+        cout << "your BMI is " << myBMI << ".";
+        
+        return 0;
+    }
+```
+
+我們從**函式解析、參數傳遞、函式呼叫**三個面向來做解釋。
+
+> 這邊先說明一個動詞，<span style="color:red;">**呼叫**</span>
+> 在世界上的程式設計師，通常都會用呼叫這個動詞來形容我們要使用一個函式
+> 在外國的話我們常聽到的叫做 call，類似下面這樣
+> we call our computeBMI function to compute our bmi
+
+> 再說明另外一個動詞，<span style="color:red;">**回傳**</span>
+> 回傳我們在英文常說 return，常用在函式回傳資料上
+
+### 函式解析
+
+* 第三到第六行為我們的函式定義區塊，你必須要呼叫函式，函式才有意義
+* 如果你沒有呼叫，那函式就不會執行
+* 一開始的 double 為我們規定的回傳型態，表示你必須要 return double 型別的資料回來，否則程式會報錯
+* 而在第三行括弧中的內容我們稱為參數，在 C++ 中，你在函式宣告時宣告了幾個參數，你在呼叫的時候就必須傳幾個參數，不能少
+* 而我們必須傳跟參數同樣資料型態的變數進來，否則程式會報錯
+    
+### 參數傳遞
+
+* 在第 15 行時我們呼叫了這個 function，因為我們在定義 computeBMI 這個函式的時候要求要有兩個 double 參數，所以我們把我們的身高跟體重傳進去
+* 而傳參數的時候是需要對應的，放前放後是有差別的，若我們在第 15 行時，把 weight 放前面 height 放後面，這樣傳入到函式內的時候就會變成身高除以體重的平方了
+* 函式定義時參數的名稱可以自己定義
+
+### 函式呼叫
+
+* 程式是一行一行往下執行的，所以當程式執行到第 15 行時呼叫函式，所以會跳到第三行，內容執行完後在第五行看到 return，所以把算好的 myBMI 這個 double 值進行回傳，這個回傳會再回到第 15 行，把這個 double 值指派給 main function 裡面的 myBMI
+* 還記得我有說過指派要由後往前看，無論任何情況皆成立，從這可以看出面對函式也仍舊通用哦
+
+## 更便利更精簡的寫法
+
+我們一樣用上面的例子來看。
+
+```cpp=
+    #include <iostream>
+    using namespace std;
+    double computeBMI(double height, double weight){
+        return weight / (height * height);        
+    }
+    
+    int main(){
+        double height, weight;
+        cout << "please input your height.\n";
+        cin >> height;
+        cout << "and input your weight.\n";
+        cin >> weight;
+        
+        cout << "your BMI is " << computeBMI(height, weight) << ".";
+        
+        return 0;
+    }
+```
+
+有看出差異嗎，在 computeBMI 裡面我少掉宣告一個變數的步驟，直接把參數做運算後回傳，這樣的寫法可以省掉宣告一個變數的記憶體空間，也可以節省程式行數。
+
+而第 14 行我也節省掉了原本的 myBMI 變數，因為函式回傳的是一個 double 值，因此我們可以直接拿來用，可以少掉一個指派動作。
+
+## void function
+
+看到這邊，大家應該可以很順利的聯想到其他六種基本型態的 function 長相，像 int 就會是這樣，其他種就省略了
+
+```
+    int func_name(args1, args2){
+        // statements
+        return value;
+    }
+```
+
+而這邊要提一個比較特別的函式型別 - void。
+void 在英文稱為虛無、空的，照著這個字面翻譯的意思，就是 void 型態的 function 沒有回傳值 (no return value)，所以會像這樣
+```
+    void do_something(args1, args2){
+        //statement
+    }
+```
+
+看個小例子
+
+```cpp=
+    void say_something(){
+        cout << "今天是九月二十號\n"
+            << "今天是星期一\n";
+    }
+    
+    int main(){
+        cout << "今天天氣真好\n";
+        
+        say_something();
+        
+        cout << "掰掰\n";
+        return 0;
+    }
+```
+
+因為 void 沒有回傳值，所以程式執行到第九行跳到 say_something，第三行執行完之後回去繼續執行 main 裡的第 11 行，因此輸出會是
+```
+    今天天氣真好
+    今天是九月二十號
+    今天是星期一
+    掰掰
+```
+
+這邊做個小總結
+
+* 函式的型態是什麼，就要回傳什麼型態的值
+* void 沒有回傳值
+
+當然 function 的細節還不只這樣，但在這篇筆記我們只談你基本該知道的宣告方式，參數傳遞跟回傳值。
+
+詳細 function 內容還有如下:
+
+* 參數傳遞差異
+    * call-by-value
+    * call-by-reference
+    * call-by-address
+* 同名函式覆寫 Overloading function
+* 回傳物件型態的 function
+* 運算子多載的 function
+
+以上內容在接下來的筆記會逐漸被提到。
